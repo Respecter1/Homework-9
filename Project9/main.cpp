@@ -1,11 +1,5 @@
 /*
 	9. Виправте програму із вправи 8.
-	
-	Відповідь:
-				- замість функції Cat &MakeCat(int age)
-				я доповнив конструктор та деструктор функціоналом 
-				які замінили цю функцію і вирішили питання
-				з витіком пам'яті
 */
 
 #include <iostream>
@@ -15,31 +9,28 @@ using namespace std;
 class Cat
 {
 public:
-	Cat(int *age);
-	~Cat();
+	Cat(int age) { itsAge = age; }
+	~Cat() {}
+	int GetAge() const { return itsAge; }
 
-	int GetAge() const { return *itsAge; }
-	
 private:
-	int* itsAge;
+	int itsAge;
 };
 
+Cat* MakeCat(int age);
 
 int main()
 {
 	int age = 7;
-	Cat Boots (&age);
-	cout << "Boots is: " << Boots.GetAge() << " years old" << endl;
+	Cat* Boots = MakeCat(age);
+	cout << "Boots is: " << Boots->GetAge() << " years old" << endl;
+	delete Boots;
 	return 0;
 }
 
-Cat::Cat(int* age)
+Cat* MakeCat(int age)
 {
-	itsAge = new int(* age);
-}
-Cat::~Cat()
-{
-	delete itsAge;
+	return new Cat(age);
 }
 
 
